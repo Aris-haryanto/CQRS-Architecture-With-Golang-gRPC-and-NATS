@@ -3,15 +3,21 @@ package database
 import (
 	"log"
 
+	"github.com/deposit-services/nats"
 	deposit "github.com/deposit-services/proto"
 )
 
-type Query struct{}
+type Query struct {
+	stream nats.Stream
+}
 
-func (get Query) GetDeposit() *deposit.Deposit {
-	if err := db.Find(&deposit.Deposit{}).Error; err != nil {
+func (qry Query) GetDeposit() []*deposit.Deposit {
+	var depositList = []*deposit.Deposit{}
+	if err := db.Find(&depositList).Error; err != nil {
 		log.Fatalln(err)
 	}
 
-	return &deposit.Deposit{}
+	qry.stream.Publish("log", "Success Get All List")
+
+	return depositList
 }

@@ -36,8 +36,8 @@ func main() {
 		req := &deposit.DepositParam{Amount: int64(amount), From: from}
 		if response, err := client.Deposit(ctx, req); err == nil {
 			ctx.JSON(http.StatusOK, gin.H{
-				"status":  fmt.Sprint(response.GetStatus),
-				"message": fmt.Sprint(response.GetMessage),
+				"status":  fmt.Sprint(response.Status),
+				"message": fmt.Sprint(response.Message),
 			})
 		} else {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -55,8 +55,8 @@ func main() {
 
 		if response, err := client.Approve(ctx, req); err == nil {
 			ctx.JSON(http.StatusOK, gin.H{
-				"status":  fmt.Sprint(response.GetStatus),
-				"message": fmt.Sprint(response.GetMessage),
+				"status":  fmt.Sprint(response.Status),
+				"message": fmt.Sprint(response.Message),
 			})
 		} else {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -64,13 +64,18 @@ func main() {
 	})
 
 	g.GET("/list", func(ctx *gin.Context) {
-		req := &deposit.ApproveParam{}
+		req := &deposit.ListDepositParam{}
 
-		if response, err := client.Approve(ctx, req); err == nil {
+		if response, err := client.ListDeposit(ctx, req); err == nil {
+			// var io io.Writer
+			// a, _ := json.Marshal(response.Data) //get json byte array
+			// n := len(a)                         //Find the length of the byte array
+			// s := string(a[:n])                  //convert to string
+
 			ctx.JSON(http.StatusOK, gin.H{
-				"status":  fmt.Sprint(response.GetStatus),
-				"message": fmt.Sprint(response.GetMessage),
-				"data":    ctx.BindJSON(response.GetData),
+				"status":  fmt.Sprint(response.Status),
+				"message": fmt.Sprint(response.Message),
+				"data":    response.Data,
 			})
 		} else {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

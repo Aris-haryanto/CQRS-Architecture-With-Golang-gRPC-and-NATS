@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net"
 
 	db "github.com/deposit-services/database"
@@ -42,9 +43,9 @@ func (s *server) Deposit(ctx context.Context, request *deposit.DepositParam) (*d
 }
 
 func (s *server) Approve(ctx context.Context, request *deposit.ApproveParam) (*deposit.Response, error) {
-	depositId := s.command.ApproveDeposit(request.GetIdDeposit())
-	if depositId == nil {
-		return &deposit.Response{Status: int32(500), Message: string("Error approve deposit")}, depositId
+	err := s.command.ApproveDeposit(request.GetIdDeposit())
+	if err != nil {
+		return &deposit.Response{Status: int32(500), Message: string("Error approve deposit")}, err
 	}
 
 	return &deposit.Response{Status: int32(200), Message: string("Success approve deposit")}, nil
@@ -52,9 +53,11 @@ func (s *server) Approve(ctx context.Context, request *deposit.ApproveParam) (*d
 
 func (s *server) ListDeposit(ctx context.Context, request *deposit.ListDepositParam) (*deposit.Response, error) {
 	listDeposit := s.query.GetDeposit()
+
+	fmt.Println(listDeposit)
 	if listDeposit == nil {
-		return &deposit.Response{Status: int32(500), Message: string("Error approve deposit"), Data: deposit.Deposit{}}, nil
+		return &deposit.Response{Status: int32(500), Message: string("Error approve deposit"), Data: []*deposit.Deposit{}}, nil
 	}
 
-	return &deposit.Response{Status: int32(200), Message: string("Success approve deposit"), Data: listDeposit}, nil
+	return &deposit.Response{Status: int32(200), Message: string("Get All List"), Data: listDeposit}, nil
 }

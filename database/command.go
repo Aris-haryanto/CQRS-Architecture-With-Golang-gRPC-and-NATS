@@ -19,8 +19,7 @@ func (cmd Command) CreateDeposit(amount int64, from string) error {
 func (cmd Command) ApproveDeposit(IDdeposit int64) error {
 	db.Model(&api.Deposit{}).Where("id = ?", IDdeposit).Update("approve", 1)
 
-	// Simple Synchronous Publisher
-	cmd.stream.Publish("log", "Depsoit approve Approve")
+	cmd.stream.Publish("log", "Deposit Approve")
 
 	return nil
 }
