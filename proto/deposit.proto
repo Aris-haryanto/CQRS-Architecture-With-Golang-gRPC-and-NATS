@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package deposit;
+
+message DepositParam {
+  int64 amount = 1;
+  string from = 2;
+}
+
+message ApproveParam {
+  int64 id_deposit = 1;
+}
+
+message ListDepositParam {}
+
+message Deposit {
+	int64 id = 1;
+	int64 amount = 2;
+	string from = 3;
+	int32 approve = 4;
+}
+
+message Response {
+  int32 status = 1;
+  string message = 2;
+  repeated Deposit data = 3;
+}
+
+service AddService {
+  rpc Deposit (DepositParam) returns (Response);
+  rpc Approve (ApproveParam) returns (Response);
+  rpc ListDeposit (ListDepositParam) returns (Response);
+}
