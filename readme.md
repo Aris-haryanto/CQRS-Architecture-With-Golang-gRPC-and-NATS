@@ -1,5 +1,17 @@
-## Menjalankan service
-Buka 3 terminal ketikan masing masing terminal
+## Database Setup
+untuk merubah database connection silahkan buka file `database/connection.go` pada fungsi `init()`
+```go
+conn, err := gorm.Open("mysql", "username-kamu@(localhost)/db-kamu?charset=utf8&parseTime=True&loc=Local")
+```
+
+## Run Nats
+Buka 1 terminal untuk menjalankan service nats. service ini yang akan dipakai oleh service push notif nantinya
+```bash
+$ nats-streaming-server
+```
+
+## Run service
+Buka 3 terminal ketikan masing-masing terminal
 
 ##### Untuk run service server
 bagian ini untuk menerima request dari services client menggunakan grpc
@@ -24,10 +36,4 @@ $ go run main.go
 ## Untuk mengcompile protobuff
 ```bash
 $ protoc -I proto/ proto/*.proto --go_out=plugins=grpc:proto
-```
-
-## Run Nats service
-Buka 1 terminal lagi untuk menjalankan service nats. service ini yang akan dipakai oleh service push notif nantinya
-```bash
-$ nats-streaming-server
 ```
