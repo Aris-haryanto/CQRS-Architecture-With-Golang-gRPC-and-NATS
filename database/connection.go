@@ -18,11 +18,10 @@ func init() {
 
 	db = conn
 
-	// Migrate()
+	Migrate()
 }
 
 func Migrate() {
-	db.Debug().DropTableIfExists(&api.Deposit{})
 	err := db.Debug().AutoMigrate(&api.Deposit{})
 	if err != nil {
 		log.Println(err)
