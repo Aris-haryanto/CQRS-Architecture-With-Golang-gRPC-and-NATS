@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package deposit;
+
+message EventParam {
+    string event_id = 1;
+    string event_type = 2;
+    string aggregate_id = 3;
+    string aggregate_type = 4;
+    string event_data = 5;
+    string channel = 6; // an optional field
+}
+
+message ResponseParam {
+    bool is_success = 1;
+    string error = 2;
+}
+
+message EventFilter {
+    string event_id = 1;
+    string aggregate_id = 2;
+}
+
+message EventResponse {
+    repeated EventParam events = 1;
+}
+
+service EventStore {
+    rpc GetEvents(EventFilter) returns (EventResponse) {}
+    rpc CreateEvent (EventParam) returns (ResponseParam) {}
+}

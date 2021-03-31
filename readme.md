@@ -11,7 +11,7 @@ $ nats-streaming-server
 ```
 
 ## Run service
-Buka 3 terminal ketikan masing-masing terminal
+Buka 5 terminal ketikan masing-masing terminal
 
 ##### Untuk run service server
 bagian ini untuk menerima request dari services client menggunakan grpc
@@ -24,6 +24,20 @@ $ go run main.go
 bagian ini untuk mengirim request ke services server menggunakan grpc
 ```bash
 $ cd client
+$ go run main.go
+```
+
+##### Untuk run service create deposit
+bagian ini untuk kita mengcreate deposit yang masuk yang dilisten dari nats streaming
+```bash
+$ cd deposit-create
+$ go run main.go
+```
+
+##### Untuk run service approve deposit
+bagian ini untuk kita mengapprove deposit yang sudah ada yang dilisten dari nats streaming
+```bash
+$ cd deposit-approve
 $ go run main.go
 ```
 
