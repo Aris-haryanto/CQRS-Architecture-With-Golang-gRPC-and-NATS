@@ -30,7 +30,10 @@ func main() {
 		log.Println(depositParam)
 
 		//insert deposit yang dikirim dari client ke database dan ke elastic seach sebagai pattern CQRS
-		isErr := db.Command{}.CreateDeposit(depositParam.Amount, depositParam.From)
+		isErr := db.Command{}.CreateDeposit(depositParam.Amount,
+			depositParam.From,
+			depositParam.AggregateId)
+
 		if isErr != nil {
 			log.Println(isErr)
 		}

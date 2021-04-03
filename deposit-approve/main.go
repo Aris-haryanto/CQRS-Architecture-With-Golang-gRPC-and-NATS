@@ -27,7 +27,8 @@ func main() {
 			log.Println(err)
 		}
 
-		isErr := db.Command{}.ApproveDeposit(approveParam.IdDeposit)
+		log.Println(approveParam)
+		isErr := db.Command{}.ApproveDeposit(approveParam.AggregateId)
 		if isErr != nil {
 			log.Println(isErr)
 		}

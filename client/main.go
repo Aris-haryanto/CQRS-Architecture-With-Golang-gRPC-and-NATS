@@ -33,13 +33,14 @@ func CreateDeposit(client pb.EventStoreClient) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Parameter from name"})
 		}
 
+		evID, _ := uuid.NewV4()
+		agID, _ := uuid.NewV4()
+
 		//data yang ada dalam event
 		var depositData pb.DepositParam
 		depositData.Amount = int64(amount)
 		depositData.From = from
-
-		evID, _ := uuid.NewV4()
-		agID, _ := uuid.NewV4()
+		depositData.AggregateId = agID.String()
 		jsonData, _ := json.Marshal(depositData)
 
 		//define param2 untuk event
@@ -67,22 +68,21 @@ func CreateDeposit(client pb.EventStoreClient) gin.HandlerFunc {
 
 func ApproveDeposit(client pb.EventStoreClient) gin.HandlerFunc {
 	handler := func(ctx *gin.Context) {
-		IdDeposit, err := strconv.ParseUint(ctx.Param("a"), 10, 64)
-		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Parameter deposit ID"})
+		aggregateID := string(ctx.Param("a"))
+		if aggregateID == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Parameter Aggregate ID"})
 		}
 
 		var approveData pb.ApproveParam
-		approveData.IdDeposit = int64(IdDeposit)
+		approveData.AggregateId = aggregateID
 
 		evID, _ := uuid.NewV4()
-		agID, _ := uuid.NewV4()
 		jsonData, _ := json.Marshal(approveData)
 
 		event := &pb.EventParam{
 			EventId:       evID.String(),
 			EventType:     "deposit-approve",
-			AggregateId:   agID.String(),
+			AggregateId:   aggregateID,
 			AggregateType: aggregate,
 			EventData:     string(jsonData),
 			Channel:       "deposit-approve",

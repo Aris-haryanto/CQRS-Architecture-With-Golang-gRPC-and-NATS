@@ -53,12 +53,13 @@ func (s *server) ListDeposit(ctx context.Context, request *event.ListDepositPara
 
 	fmt.Println(listDeposit)
 	if listDeposit == nil {
-		return &event.Response{Status: int32(500), Message: string("Error approve deposit"), Data: []*event.Deposit{}}, nil
+		return &event.Response{Status: int32(500), Message: string("Error get list deposit"), Data: []*event.Deposit{}}, nil
 	}
 
 	return &event.Response{Status: int32(200), Message: string("Get All List"), Data: listDeposit}, nil
 }
 
+//we need to define whenever we not use this
 func (s *server) GetEvents(ctx context.Context, eventData *event.EventFilter) (*event.EventResponse, error) {
 
 	return &event.EventResponse{}, nil

@@ -1,13 +1,21 @@
+## Install All Dependencies
+untuk menginstall semua library yang dibutuhkan cukup masuk ke foldernya dan tulis ini dicommand line kamu
+```
+go get -v ./...
+```
+
 ## Database Setup
 untuk merubah database connection silahkan buka file `database/connection.go` pada fungsi `init()`
 ```go
 conn, err := gorm.Open("mysql", "username-kamu@(localhost)/db-kamu?charset=utf8&parseTime=True&loc=Local")
 ```
 
-## Run Nats
-Buka 1 terminal untuk menjalankan service nats. service ini yang akan dipakai oleh service push notif nantinya
+## Run service yang diperlukan
+Buka terminal untuk menjalankan service nats. service ini yang akan dipakai oleh service push notif nantinya
+jalankan elasticsearch ini digunakan untuk pengambilan data (query) 
 ```bash
 $ nats-streaming-server
+$ elasticsearch
 ```
 
 ## Run service
@@ -41,8 +49,8 @@ $ cd deposit-approve
 $ go run main.go
 ```
 
-##### Untuk run push notification
-bagian ini untuk melihat proses push notifikasi dari services server ketika ada request dari client
+##### Untuk run Log
+bagian ini untuk melihat log proses dari services ketika ada request dari client
 ```bash
 $ cd pushnotif
 $ go run main.go

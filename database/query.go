@@ -18,20 +18,19 @@ func (qry Query) GetDeposit() []*deposit.Deposit {
 
 	ctx := context.Background()
 	searchSource := elastic.NewSearchSource()
-	// searchSource.Query(elastic.NewMatchQuery("name", "Doe"))
 
 	searchService := elasticConn.Search().Index(elIndex).SearchSource(searchSource)
 
 	searchResult, err := searchService.Do(ctx)
 	if err != nil {
-		fmt.Println("[ProductsES][GetPIds]Error=", err)
+		fmt.Println("List Deposit Error : ", err)
 	}
 
 	for _, hit := range searchResult.Hits.Hits {
 		var depo *deposit.Deposit
 		errJs := json.Unmarshal(hit.Source, &depo)
 		if errJs != nil {
-			fmt.Println("[Getting Depo][Unmarshal] Err=", err)
+			fmt.Println("Json Deposit Error : ", err)
 		}
 
 		depositList = append(depositList, depo)

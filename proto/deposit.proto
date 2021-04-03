@@ -1,14 +1,17 @@
 syntax = "proto3";
 
+option go_package = ".;deposit";
+
 package deposit;
 
 message DepositParam {
   int64 amount = 1;
   string from = 2;
+  string aggregate_id = 3;
 }
 
 message ApproveParam {
-  int64 id_deposit = 1;
+  string aggregate_id = 1;
 }
 
 message ListDepositParam {}
@@ -18,6 +21,7 @@ message Deposit {
 	int64 amount = 2;
 	string from = 3;
 	int32 approve = 4;
+  string aggregate_id = 5;
 }
 
 message Response {
