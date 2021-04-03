@@ -1,3 +1,7 @@
+# Notes
+This repo is a part of this article https://arisharyanto.medium.com/eventsourcing-and-cqrs-architecture-using-golang-grpc-nats-and-elasticsearch-c3ca50e425c2
+
+
 ## Install All Dependencies
 untuk menginstall semua library yang dibutuhkan cukup masuk ke foldernya dan tulis ini dicommand line kamu
 ```
